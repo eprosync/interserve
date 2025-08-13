@@ -19,8 +19,8 @@ if SERVER then
     local INTERSERVE_IPORT = CreateConVar("interserve_iport", "-1", {FCVAR_ARCHIVE, FCVAR_PROTECTED}, "Server's interserve port (must be a valid port!)")
     local INTERSERVE_PORT = CreateConVar("interserve_port", "-1", {FCVAR_ARCHIVE, FCVAR_PROTECTED}, "Client's inverserve port (must be the same or targeting a proxy)")
     local INTERSERVE_SSL = CreateConVar("interserve_ssl", "0", {FCVAR_ARCHIVE, FCVAR_PROTECTED}, "Client's inverserve SSL support")
-    local INTERSERVE_TRUSTED = CreateConVar("interserve_trusted", "1", {FCVAR_ARCHIVE, FCVAR_PROTECTED}, "Client's inverserve SSL support")
-    local INTERSERVE_TIMEOUT = CreateConVar("interserve_timeout", "30", {FCVAR_ARCHIVE, FCVAR_PROTECTED}, "Server's interserve timeout")
+    local INTERSERVE_TRUSTED = CreateConVar("interserve_trusted", "1", {FCVAR_ARCHIVE, FCVAR_PROTECTED}, "Client's inverserve trusted proxy support")
+    local INTERSERVE_TIMEOUT = CreateConVar("interserve_timeout", "30", {FCVAR_ARCHIVE, FCVAR_PROTECTED}, "Server's interserve timeout in seconds")
 
     concommand.Add("interserve_reload", function(invoker)
         if IsValid(invoker) then return end
