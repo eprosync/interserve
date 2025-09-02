@@ -287,7 +287,7 @@ if SERVER then
         local self = interserve
         local engine = self.engine
         local sid = self.sessions[invoker]
-        assert(sid ~= nil, "[Interserve] Cannot construct " .. invoker:SteamID64() .. " without session ID")
+        if not sid then return end
         engine:post("/interserve/" .. sid .. "/" .. id, function(req, res)
             if self.trusted then
                 if req.headers["X-Forwarded-For"] then
