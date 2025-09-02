@@ -501,6 +501,7 @@ else
     function interserve.get(uid, id)
         local self = interserve
         local sid = self.sid
+        local failures = self.failures
         HTTP({
             failed = function( reason )
                 if failures[id] then
