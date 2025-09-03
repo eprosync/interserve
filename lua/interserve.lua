@@ -464,8 +464,9 @@ else
 
     interserve.sending = {}
     function interserve:send(id, data)
+        id = self:hash(id)
         net.Start("Interserve:Post")
-        net.WriteString(self:hash(id))
+        net.WriteString(id)
         net.WriteUInt(#data, 32)
         net.SendToServer()
         if not self.sending[id] then self.sending[id] = {} end
