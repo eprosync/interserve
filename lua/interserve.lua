@@ -167,17 +167,32 @@ if SERVER then
         if not r[id] then return end
 
         local sending = self.sending
-        if not sending[invoker] then return end
-        local entry = sending[invoker]
-        if not entry[id] then entry[id] = {} end
-
         local uid = util.SHA256(tostring(SysTime()))
-        entry[id][uid] = {
-            id = id,
-            uid = uid,
-            time = os.time(),
-            data = data
-        }
+
+        if istable(invoker) then
+            for i=1, #invoker do
+                local invoker = invoker[i]
+                if not sending[invoker] then continue end
+                local entry = sending[invoker]
+                if not entry[id] then entry[id] = {} end
+                entry[id][uid] = {
+                    id = id,
+                    uid = uid,
+                    time = os.time(),
+                    data = data
+                }
+            end
+        else
+            if not sending[invoker] then return end
+            local entry = sending[invoker]
+            if not entry[id] then entry[id] = {} end
+            entry[id][uid] = {
+                id = id,
+                uid = uid,
+                time = os.time(),
+                data = data
+            }
+        end
 
         net.Start("Interserve:Get")
         net.WriteString(id)
