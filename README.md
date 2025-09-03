@@ -49,7 +49,7 @@ By default it targets `25500` which if you are using multiple instances will sto
 - A callback for incoming data.
 - callback: function(data: string, invoker?: Player)
 
-### interserve:send(id: string, data: string, invoker?: Player)
+### interserve:send(id: string, data: string, invoker?: Player | Player[])
 - For sending data to the server or client through interserve.
 - invoker: the target player, only available on server realms.
 
@@ -79,7 +79,7 @@ By default it targets `25500` which if you are using multiple instances will sto
 - Only available on server realms.
 
 ## Roadmap
-- Add further endpoint obfuscation by using salt'ed MD5/SHA on startup.
+- ~~Add further endpoint obfuscation by using salt'ed MD5/SHA on startup.~~
 - Built-in logger and profiler for endpoint monitoring.
 
 Other additions to this depends on interstellar, and if I can implement it reliably.
