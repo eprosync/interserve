@@ -22,6 +22,10 @@ if SERVER then
     local INTERSERVE_TRUSTED = CreateConVar("interserve_trusted", "1", {FCVAR_ARCHIVE, FCVAR_PROTECTED}, "Client's inverserve trusted proxy support")
     local INTERSERVE_TIMEOUT = CreateConVar("interserve_timeout", "30", {FCVAR_ARCHIVE, FCVAR_PROTECTED}, "Server's interserve timeout in seconds")
 
+    function interserve:hash(id)
+        return util.SHA256(id)
+    end
+
     concommand.Add("interserve_reload", function(invoker)
         if IsValid(invoker) then return end
         interserve:boot()
@@ -65,17 +69,18 @@ if SERVER then
 
     interserve.handshakes = {}
     function interserve:handshake(id, callback)
-        self.handshakes[id] = callback
+        self.handshakes[self:hash(id)] = callback
     end
 
     interserve.interrupts = {}
     function interserve:interrupt(id, callback)
-        self.interrupts[id] = callback
+        self.interrupts[self:hash(id)] = callback
     end
 
     function interserve:add(id)
         local self = interserve
         local r = self.registry
+        id = self:hash(id)
         if r[id] then return end
         r[id] = true
         r[#r+1] = id
@@ -89,6 +94,7 @@ if SERVER then
     function interserve:remove(id)
         local self = interserve
         local r = self.registry
+        id = self:hash(id)
         if not r[id] then return end
 
         r[id] = nil
@@ -108,6 +114,7 @@ if SERVER then
     function interserve:exists(id)
         local self = interserve
         local r = self.registry
+        id = self:hash(id)
         return r[id] ~= nil
     end
 
@@ -115,6 +122,7 @@ if SERVER then
     function interserve:receive(id, callback)
         local self = interserve
         local r = self.registry
+        id = self:hash(id)
         if not r[id] then return end
         local receivers = self.receivers
         receivers[id] = callback
@@ -155,6 +163,7 @@ if SERVER then
     function interserve:send(id, data, invoker)
         local self = interserve
         local r = self.registry
+        id = self:hash(id)
         if not r[id] then return end
 
         local sending = self.sending
@@ -181,6 +190,7 @@ if SERVER then
 
         local self = interserve
         local r = self.registry
+        id = self:hash(id)
         if not r[id] then return end
 
         local sending = self.sending
@@ -210,6 +220,7 @@ if SERVER then
 
         local self = interserve
         local r = self.registry
+        id = self:hash(id)
         if not r[id] then return end
 
         local sending = self.sending
@@ -447,10 +458,14 @@ if SERVER then
     hook.Add("PlayerDisconnected", "Interserve", interserve.destruct)
     timer.Simple(0, function() interserve:boot() end)
 else
+    function interserve:hash(id)
+        return util.SHA256(id)
+    end
+
     interserve.sending = {}
     function interserve:send(id, data)
         net.Start("Interserve:Post")
-        net.WriteString(id)
+        net.WriteString(self:hash(id))
         net.WriteUInt(#data, 32)
         net.SendToServer()
         if not self.sending[id] then self.sending[id] = {} end
@@ -462,14 +477,14 @@ else
     function interserve:receive(id, callback)
         local self = interserve
         local receivers = self.receivers
-        receivers[id] = callback
+        receivers[self:hash(id)] = callback
     end
 
     interserve.failures = {}
     function interserve:failure(id, callback)
         local self = interserve
         local failures = self.failures
-        failures[id] = callback
+        failures[self:hash(id)] = callback
     end
 
     function interserve.post(uid, id, body)
