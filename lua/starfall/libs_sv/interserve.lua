@@ -161,9 +161,9 @@ return function(instance)
             end
             receivers[id] = callback
             receivers[#receivers+1] = id
-            interserve:receive(id, function(invoker, data)
+            interserve:receive(id, function(data, invoker)
                 invoker = instance.Types.Player.Wrap(invoker)
-                instance:runFunction(callback, invoker, data)
+                instance:runFunction(callback, data, invoker)
             end)
         else
             receivers[id] = nil
