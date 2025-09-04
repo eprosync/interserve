@@ -355,7 +355,7 @@ if SERVER then
             local receivers = self.receivers
             if not receivers[id] then return res:status(403) end
 
-            local ran, err = xpcall(receivers[id], debug.traceback, invoker, req.body, req)
+            local ran, err = xpcall(receivers[id], debug.traceback, req.body, invoker)
             if not ran then ErrorNoHalt(err) end
 
             return res:status(200)
