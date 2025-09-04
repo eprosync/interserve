@@ -5,6 +5,7 @@ Courtesy of Buildstruct for allowing me to reliably test this under their player
 
 **This has only been tested on a 25 player sandbox server, usage on high-capacity servers is discuraged as I have not realiably been able to test this.**\
 **Do note that this does open ports & accepts HTTP requests, we recommend configuring this behind mitigation services such as Cloudflare.**
+You can find the binary here: https://github.com/eprosync/interstellar_gmod
 
 ## Pros/Cons
 This is just a simple list of pros/cons, there are alternatives that do not require interstellar such as `gm_express`, however it is to be note that in the future a similar API for this could be strictly made without using interstellar.
