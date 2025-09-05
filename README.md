@@ -3,6 +3,7 @@ Used as an alternative to large and deferred data transfer from clients and serv
 This initially was an experiment to see if we can use HTTP as a form of deferred networking, while not requiring any form of external communication outside the process.\
 Courtesy of Buildstruct for allowing me to reliably test this under their player-base.
 
+**This does not work on single-player/localhost, due to the fact HTTP is blocked from accessing localhost.**\
 **Do note that this does open ports & accepts HTTP requests, we recommend configuring this behind mitigation services such as Cloudflare.**\
 You can find the binary here: https://github.com/eprosync/interstellar_gmod
 
