@@ -21,6 +21,7 @@ if SERVER then
     local INTERSERVE_SSL = CreateConVar("interserve_ssl", "0", {FCVAR_ARCHIVE, FCVAR_PROTECTED}, "Client's inverserve SSL support")
     local INTERSERVE_TRUSTED = CreateConVar("interserve_trusted", "1", {FCVAR_ARCHIVE, FCVAR_PROTECTED}, "Client's inverserve trusted proxy support")
     local INTERSERVE_TIMEOUT = CreateConVar("interserve_timeout", "30", {FCVAR_ARCHIVE, FCVAR_PROTECTED}, "Server's interserve timeout in seconds")
+    local INTERSERVE_SIZE = CreateConVar("interserve_size", "10485760", {FCVAR_ARCHIVE, FCVAR_PROTECTED}, "Server's interserve max internal upload size")
 
     function interserve:hash(id)
         return util.SHA256(id)
@@ -457,6 +458,13 @@ if SERVER then
         local self = interserve
         self.engine = iot.serve(self.port)
         local engine = self.engine
+
+        engine.max_body_size = INTERSERVE_SIZE:GetInt()
+        engine.max_field_count = 100
+        engine.max_field_name_size = 256
+        engine.max_field_value_size = 16 * 1024
+        engine.max_url_size = 8 * 1024
+        
         if engine:active() or engine:start() then
             print("[Interserve] Engine Ready.")
         else
