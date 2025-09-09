@@ -28,6 +28,7 @@ This is just a simple list of pros/cons, there are alternatives that do not requ
 - `interserve_ssl [boolean]` - Client's inverserve SSL support
 - `interserve_trusted [boolean]` - Client's inverserve trusted proxy support
 - `interserve_timeout [number]` - Server's interserve timeout in seconds
+- `interserve_size [number]` - Server's interserve max internal upload size
 
 I recommend that on each server instance inside `server.cfg` you set the `interserve_iport`.\
 By default it targets `25500` which if you are using multiple instances will stop other server instances from attaching to the port if already in-use.
